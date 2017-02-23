@@ -136,6 +136,13 @@ constructor(nameService : TypeService){}
 ```html
 <photo *ngFor="let photo of photos" src="{{photo.att1}}" alt="{{photo.attr2}}" ></photo>
 ```
+- **NG-CONTENT** | Added **child** value in component
+```javascript
+<panel>
+  <child></child>
+</panel>
+```
+
 
 # RxJS
 - Return **observable stream**
