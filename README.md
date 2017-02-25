@@ -63,7 +63,7 @@ export class ComponentName{
   @Input() attr2;
 }
 ```
-- **ONE WAY DATABIND** _Use_ **[]**=**propertie**
+- **ONE WAY DATABIND** **MODEL** TO **VIEW** _Use_ **[]**=**propertie**
 ```javascript
 import { Component, Input } from '@angular/core';
 @Component({
@@ -90,9 +90,26 @@ export class ComponentName{
 <!-- OR-->
 <componentName src="{{att1}}" alt="{{attr2}}"></componentName>
 ```
-- **EVENT BIND** in **VIEW** to **MODEL** | Use **()**
+- **ONE WAY DATABIND** **VIEW** TO **MODEL** _Use_ **[]**=**$event.target.value**
+  - **use NGMODEL**
 ```html
-<input type="text" (keyup)="" />
+<input type="text" (input)="objectName = $event.target.value" />
+
+<!-- or -->
+
+<input type="text" [(ngModel)]="objectName" />
+```
+
+- **TWO WAY DATABIND**
+ - Use **[()]**
+ ```html
+ <input type="text" name="objectName" [(ngModel)]="objectName" />
+ ```
+
+- **EVENT BIND** in **VIEW** to **MODEL** | Use **()**
+  - **$event** | Event
+```html
+<input type="text" (keyup)="functionName($event)" />
 ```
 - **CREATING LOCAL VARIABLE** | Use **#** varName OU **var-**varName**
 ```html
@@ -100,6 +117,9 @@ export class ComponentName{
 <input var-localVariableName type="text" />
 ```
 
+## LIFECYCLE
+- **constructor**
+- **ngOnInit** | run after inbound properties received value
 
 # STEPS
 - **Run** _transpiler_ watch
@@ -123,8 +143,18 @@ import { Http } from '@angular/http';
 
 // MODULE PROVIDER
 import { HttpModule } from '@angular/http';
-
 ```
+- **HTTP HEADER** | COnfig header to http
+```javascript
+// COMPONENT
+import { Headers } from '@angular/http';
+
+const headers = new Headers();
+
+// add header value
+headers.append('Name', 'value');
+```
+
 - **CREATE ROUTES**
   - **routes** | This is _array_
   - **RouterModule** | _Compile_ routes
@@ -174,6 +204,10 @@ constructor(nameService : TypeService){}
 ```html
 <photo *ngFor="let photo of photos" src="{{photo.att1}}" alt="{{photo.attr2}}" ></photo>
 ```
+- **NGIF** | use _*_
+```html
+<photo *ngIf="condition"></photo>
+```
 - **NG-CONTENT** | Added **child** value in component
 ```html
 <panel>
@@ -188,6 +222,27 @@ constructor(nameService : TypeService){}
 ```html
 <a [routerLink] = "['/routerName']" >Link</a>
 ```
+- **ngModel***
+  - **name** is **required**
+  - _IMPORT_ **FormsModule**
+```javascript
+import { FormsModule } from '@angular/forms';
+```
+```html
+<input type="text" name="objectName" [(ngModel)]="objectName" />
+```
+- **DISABLED**
+```html
+<button [disabled]="localVariableName.invalid" >Save</button>
+```
+- **FORMGROUP** | Used to _validation_ fields in **MODEL**
+  - **formControlName** | Is **REQUIRED**
+```html
+<form [formGroup]="modelFormGroupName" formControlName>
+</form>
+```
+
+
 
 ## FILTERS
 - **UPPERCASE**
@@ -216,8 +271,38 @@ export class FilterName{
 }
 ```
 
+## VALIDATION FORMS
+### TEMPLATE
+- **invalid** | Check validation is ok
+```html
+<input type="text" name="objectName" [(ngModel)]="objectName" #localVariableName="ngModel" />
+<span *ngIf="localVariableName.invalid" >Error</span>
+```
 
+```html
+<form #localVariableName="ngForm" >
+<button [disabled]="localVariableName.invalid" >Save</button>
+</form>
+```
 
+### MODEL
+- **validator** to _access_ in **VIEW** use **.controls**:
+  - **validator.compose()** | Any **validator** more that one **validator**
+```html
+<!--  Show to all validators -->
+<span *ngIf='formName.controls.objectName.invalid' >Error</span>
+
+<!--  Show to specific validator -->
+<span *ngIf='formName.controls.objectName.errors.required' >Error</span>
+```
+```javascript
+// Added in MODULE
+import { ReactiveFormsModule } from '@angular/forms';
+
+// Added in component
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+```
 
 # RxJS
 - Return **observable stream**
@@ -273,3 +358,5 @@ import 'rxjs/add/operator/map';
 ```html
 <input type="text" (keyup)="" />
 ```
+- **FORMGROUP**
+   - **added** ALL INPUTS IN **FORMGROUP**
