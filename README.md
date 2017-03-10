@@ -39,12 +39,14 @@ export class ModuleName{
   - **selector** create tagName <componentName></componentName>
   - **templateUrl**
   - **moduleId** _enable_ _RELATIVE PATH_ for tempalteUrl
+  - **styleUrls** css for **component**
 ```javascript
 import { Component } from '@angular/core';
 @Component({
   moduleId: module.id,
   selector: 'app',
   templateUrl: './app/app.component.html',
+  styleUrls: []
 
 })
 export class ComponentName{}
@@ -135,7 +137,25 @@ platform.bootstrapModule(AppModule);
 ```
 
 
-# SERVICES ANGULAR CORE
+# SERVICES
+## CUSTOM SERVICES
+- **CREATE** | permitted inject **angular service** example : _http_
+```javascript
+import {  Injectable } from '@angular/core';
+@Injectable()
+export class MyService{}
+```
+- To **export** the custom services in **providers**
+```javascript
+@NgModule({
+  declarations: [ PhotoComponent ],
+  exports: [ PhotoComponent ],
+  providers: [customService]
+});
+
+```
+
+## ANGULAR CORE
 - **HTTP** | call ajax requests
 ```javascript
 // COMPONENT
@@ -170,6 +190,10 @@ import { RouterModule, Routes} from '@angular/router';
 const appRoutes: Routes = [
   { path: '', component: ComponentName},
   { path: 'register', component: ComponentName},
+
+  // DEFINE PARAM
+{ path: 'register/:paramName', component: ComponentName},
+
   // Equal 404 ROUTE
   { path: '**', component: ComponentName},
   // or
@@ -184,7 +208,19 @@ export const routing = RouterModule.forRoot(appRoutes);
 ```html
 <base href="/">
 ```
+- **GET PARAMS ROUTE**
+```javascript
+import { ActivatedRoute } from '@angular/router';
 
+route.params.subscribe(params => params['paramName']);
+```
+
+- **REDIRECT IN COMPONENT**
+```javascript
+import { roUTER, } from '@angular/router';
+
+router.navigate(['routeName']);
+```
 
 # DEPENDENCY INJECTION
 - **Init**
@@ -323,6 +359,16 @@ import 'rxjs/add/operator/map';
 
 # TRANSPILER
 - **Transform** _typescript_ in **javascript**
+
+# SHADOW DOM
+- **INIT**
+  - **Emulated** id _default_
+```javascript
+import { Component, ViewEncapsulation } from '@angular/core';
+@Component({
+    encapsulation: "ViewEncapsulation.Emulated | ViewEncapsulation.NONE | ViewEncapsulation.Native"
+  })
+```
 
 # OBSERVATIONS
 - In 21/02/17 **javascript** don't support to **DECORATOR**, but **typescript** have support
