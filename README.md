@@ -2,7 +2,7 @@
 
 # LINKS
 - https://angular.io/
-
+- https://github.com/angular/angular-cli
 
 # PLUGINS
 ## DEV
@@ -52,8 +52,11 @@ import { Component } from '@angular/core';
 export class ComponentName{}
 ```
 - **ADDED PROPERTIES** | _import_ **input**
+  - **Input** received information
+  - **Output** send events
+  - **EventEmitter** _trigger_ events
 ```javascript
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   moduleId: module.id,
   selector: 'app',
@@ -63,6 +66,7 @@ import { Component, Input } from '@angular/core';
 export class ComponentName{
   @Input() attr1;
   @Input() attr2;
+  @Output() action;
 }
 ```
 - **ONE WAY DATABIND** **MODEL** TO **VIEW** _Use_ **[]**=**propertie**
@@ -368,6 +372,58 @@ import { Component, ViewEncapsulation } from '@angular/core';
 @Component({
     encapsulation: "ViewEncapsulation.Emulated | ViewEncapsulation.NONE | ViewEncapsulation.Native"
   })
+```
+
+# JQUERY and ANGULAR2
+> **NEVER** _use_, buuuuuuuuuuuuuuuuuuuuut case you want.
+
+- **INSTALL TYPINGS**
+  - **TYPINGS** permitte added **$** **GLOBAL**
+```shell
+node .node_modules/typings/dist/bin install dt~jquery --global --save
+```
+- **IMPORT** **BEFORE** _angular_ files
+- **ACCESS** your **dom componeent**, use **elementref**
+```javascript
+import { Component, ElementRef } from '@angular/core';
+@Component({
+
+})
+export class ComponentName{
+  constructor(element: ElementRef){}
+
+  event(callback){
+    $(this.element.nativeElement).fadeOut(callback);
+  }
+
+}
+```
+
+# ANGULAR CLI
+- **INSTALL**
+```shell
+npm install -g angular-cli@1.0.0-beta.19-3
+```
+- **CREATE PROJECT**
+```shell
+ng new projectName
+```
+- **SERVER**
+```shell
+ng serve
+ng serve --prod // PRODUTION
+```
+- **CREATE COMPONENT**
+```shell
+ng g component name
+```
+- **CREATE MODULE** | **MODULE** DOESNT _AUTOMATIC IMPORT_ IN **app.module**
+```shell
+ng g module name
+```
+- **BUILD**
+```shell
+ng build --prod
 ```
 
 # OBSERVATIONS
